@@ -24,7 +24,7 @@ app.use((err,req,res,next) => {
 
 //Custom routes
 app.use("/api/user",userRouter)
-app.use("/api/rides",authenticate,rideRouter)
+app.use("/api/ride",authenticate,rideRouter)
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
