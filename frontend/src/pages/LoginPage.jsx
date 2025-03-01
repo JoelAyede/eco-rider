@@ -17,6 +17,8 @@ export default function LoginPage() {
     try {
       const response = await axios.post('/api/user/login', {email, password});
       if (response.data.id != 0) {
+        sessionStorage.setItem('name', response.data.name);
+        sessionStorage.setItem('id', response.data.id);
         console.log('Inscription réussie')
         console.log(response.data);
         navigate('/');

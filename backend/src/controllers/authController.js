@@ -27,6 +27,11 @@ export const login = async (req, res) => {
     return res.status(401).json({ error: "Identifiants invalides" });
   }
 
+
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET environmental variable is not defined');
+  }
+
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-  res.json({ token });
+  res.json({ token , name : user.name,id: user.id });
 };
