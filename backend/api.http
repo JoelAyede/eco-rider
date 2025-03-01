@@ -1,0 +1,10 @@
+POST http://localhost:3000/api/user/register
+
+Authorization: Bearer shwV07sAbQLD3f79WvYTYRqgRwxA1RU67clILtRQGtg=
+Content-Type: application/json
+
+{
+    "email": "Joe@email.com",
+    "password": "password",
+    "name": "Joe"
+}

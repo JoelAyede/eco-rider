@@ -21,7 +21,7 @@ model User {
   rides     Ride[]
   bookings  Booking[]
   reviews   Review[]
-  createdAt DateTime @default(now()) @db.Timestamp
+  createdAt DateTime @default(now()) @db.DateTime(3)
 }
 
 model Ride {
@@ -35,7 +35,8 @@ model Ride {
   seats       Int
   bookings    Booking[]
   reviews     Review[]
-  createdAt   DateTime @default(now()) @db.Timestamp
+  taken       Boolean @default(false)
+  createdAt   DateTime @default(now()) @db.DateTime(3)
 }
 
 model Booking {
@@ -45,7 +46,7 @@ model Booking {
   ride      Ride     @relation(fields: [rideId], references: [id])
   rideId    Int
   seats     Int
-  createdAt DateTime @default(now()) @db.Timestamp
+  createdAt DateTime @default(now()) @db.DateTime(3)
 }
 
 model Review {
@@ -56,5 +57,5 @@ model Review {
   authorId  Int
   ride      Ride     @relation(fields: [rideId], references: [id])
   rideId    Int
-  createdAt DateTime @default(now()) @db.Timestamp
+  createdAt DateTime @default(now()) @db.DateTime(3)
 }

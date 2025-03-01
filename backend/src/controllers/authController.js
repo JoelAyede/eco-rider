@@ -1,10 +1,13 @@
 import { prisma } from '../utils/db.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const register = async (req, res) => {
   const { email, password, name } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hashSync(password, 13);
 
   try {
     const user = await prisma.user.create({

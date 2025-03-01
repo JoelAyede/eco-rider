@@ -1,11 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Box, TextField, Button, Typography, Paper } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function RegisterPage() {
-  const handleSubmit = (e) => {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Logique de connexion
+
+    try {
+      const response = await axios.post('/api/user/register', {
+        email,
+        password,
+        name,
+      });
+
+
+      // Redirection vers la page de connexion après inscription
+      // window.location.href = '/login';
+      if(response.data.id != 0) {
+        console.log('Inscription réussie')
+        console.log(response.data);
+        navigate('/login');
+      };
+    } catch (error) {
+      console.error('Erreur lors de l\'inscription:', error);
+    }
   };
 
   return (
@@ -14,16 +39,28 @@ export default function RegisterPage() {
         <Typography variant="h5" gutterBottom align="center">
           Créer un compte
         </Typography>
-        
+
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <TextField
+            type='text'
             fullWidth
-            label="Email"
+            label="Nom"
             variant="outlined"
             margin="normal"
             required
+            onChange={(e) => setName(e.target.value)}
           />
-          
+
+          <TextField
+            fullWidth
+            label="Email"
+            type="email"
+            variant="outlined"
+            margin="normal"
+            required
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
           <TextField
             fullWidth
             label="Mot de passe"
@@ -31,6 +68,7 @@ export default function RegisterPage() {
             variant="outlined"
             margin="normal"
             required
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           <Button

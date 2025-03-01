@@ -1,30 +1,19 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv"
+import express from 'express';
+import cors from 'cors';
+import authRoutes from "./src/routes/authRoutes.js"
 
-// Customized
-import userRouter from "./src/routes/authRoutes.js";
-import { authenticate } from "./src/middleware/authMiddleware.js";
-import rideRouter from "./src/routes/rideRoutes.js";
-
-//Vars
-dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5000
 
-//Api configuration
+// Enable CORS
 app.use(cors());
-app.use(express.json())
 
-//Error handling
-app.use((err,req,res,next) => {
-  console.error(err.stack);
-  res.status(500).send('Something Broke !')
-})
+// Middleware to parse JSON bodies
+app.use(express.json());
 
-//Custom routes
-app.use("/api/user",userRouter)
-app.use("/api/ride",authenticate,rideRouter)
+// Use the userRouter for /api/user routes
+app.use('/api/user', authRoutes);
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

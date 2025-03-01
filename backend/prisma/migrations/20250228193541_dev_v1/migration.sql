@@ -1,16 +1,14 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE `User` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `email` VARCHAR(255) NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
+    `name` VARCHAR(100) NOT NULL,
+    `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-  - Added the required column `password` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Made the column `name` on table `user` required. This step will fail if there are existing NULL values in that column.
-
-*/
--- AlterTable
-ALTER TABLE `user` ADD COLUMN `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    ADD COLUMN `isDriver` BOOLEAN NOT NULL DEFAULT false,
-    ADD COLUMN `password` VARCHAR(255) NOT NULL,
-    MODIFY `email` VARCHAR(255) NOT NULL,
-    MODIFY `name` VARCHAR(100) NOT NULL;
+    UNIQUE INDEX `User_email_key`(`email`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- CreateTable
 CREATE TABLE `Ride` (
@@ -21,10 +19,11 @@ CREATE TABLE `Ride` (
     `date` DATETIME(3) NOT NULL,
     `price` DOUBLE NOT NULL,
     `seats` INTEGER NOT NULL,
+    `taken` BOOLEAN NOT NULL DEFAULT false,
     `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- CreateTable
 CREATE TABLE `Booking` (
@@ -35,7 +34,7 @@ CREATE TABLE `Booking` (
     `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- CreateTable
 CREATE TABLE `Review` (
@@ -47,7 +46,7 @@ CREATE TABLE `Review` (
     `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- AddForeignKey
 ALTER TABLE `Ride` ADD CONSTRAINT `Ride_driverId_fkey` FOREIGN KEY (`driverId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Box, TextField, Button, Typography, Paper } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function LoginPage() {
-  const handleSubmit = (e) => {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Logique de connexion
+
+    try {
+      const response = await axios.post('/api/user/login', {email, password});
+      if (response.data.id != 0) {
+        console.log('Inscription réussie')
+        console.log(response.data);
+        navigate('/');
+      };
+    } catch (error) {
+      console.error('Erreur lors de l\'inscription:', error)
+    }
+
   };
 
   return (
@@ -14,17 +33,20 @@ export default function LoginPage() {
         <Typography variant="h5" gutterBottom align="center">
           Connexion
         </Typography>
-        
+
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <TextField
+          type='email'
             fullWidth
             label="Email"
             variant="outlined"
             margin="normal"
             required
+            onChange={(e) => setEmail(e.target.value)}
           />
-          
+
           <TextField
+          onChange={(e) => setPassword(e.target.value)}
             fullWidth
             label="Mot de passe"
             type="password"
