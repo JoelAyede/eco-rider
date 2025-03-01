@@ -8,3 +8,7 @@ Content-Type: application/json
     "password": "password",
     "name": "Joe"
 }
+
+GET http://localhost:3000/api/ride
+
+GET http://localhost:3000/api/booking

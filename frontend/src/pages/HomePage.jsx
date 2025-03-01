@@ -1,15 +1,26 @@
-import React from 'react';
-import { Container, Grid, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Container, Grid, Typography, Pagination } from '@mui/material';
 import RideCard from '../components/RideCard';
+import axios from 'axios';
+
 
 const HomePage = () => {
-  // Exemple de données (à remplacer par des données réelles)
 
-  console.log("Hello ");
-  const rides = [
-    { id: 1, startPoint: 'Paris', endPoint: 'Lyon', date: new Date(), price: 25, seats: 3, driver: { name: 'Jean Dupont' } },
-    { id: 2, startPoint: 'Marseille', endPoint: 'Nice', date: new Date(), price: 15, seats: 2, driver: { name: 'Marie Curie' } },
-  ];
+  const [rides,setRides] = useState([])
+
+  const fetchRides = async () => {
+    try {
+      const response = await axios.get('/api/ride');
+      console.log(response.data);
+      setRides(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchRides();
+  },[])
 
   return (
     <Container maxWidth="lg">

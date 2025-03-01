@@ -1,7 +1,10 @@
 import React from 'react';
 import { Container, Box, TextField, Button, Typography, Grid } from '@mui/material';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function RideCreationPage() {
+
   const [form, setForm] = React.useState({
     startPoint: '',
     endPoint: '',
@@ -11,7 +14,7 @@ export default function RideCreationPage() {
     seats: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Validation manuelle de la date/heure
     const dateTime = new Date(`${form.date}T${form.time}`);
@@ -19,7 +22,32 @@ export default function RideCreationPage() {
       alert('Format de date/heure invalide');
       return;
     }
+
     // Logique de création avec dateTime.toISOString()
+    try {
+      const response = await axios.post('/api/ride', {
+        ...form,
+        date: dateTime.toISOString()
+      },{
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
+        }
+      });
+      console.log(response.data);
+
+      toast.success("Trajet publié avec succès");
+      // Reset form inputs
+      setForm({
+        startPoint: '',
+        endPoint: '',
+        date: '',
+        time: '',
+        price: '',
+        seats: ''
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -51,20 +79,21 @@ export default function RideCreationPage() {
           </Grid>
 
           <Grid item xs={12} md={6}>
+            <Typography>Date de départ</Typography>
             <TextField
               type='date'
               fullWidth
               value={form.date}
               onChange={(e) => setForm({ ...form, date: e.target.value })}
-              placeholder="2024-03-15"
               required
             />
           </Grid>
 
           <Grid item xs={12} md={6}>
+            <Typography>Heure de départ</Typography>
             <TextField
+              type='time'
               fullWidth
-              label="Heure (HH:MM)"
               value={form.time}
               onChange={(e) => setForm({ ...form, time: e.target.value })}
               placeholder="14:30"

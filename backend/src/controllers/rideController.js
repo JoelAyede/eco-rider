@@ -22,7 +22,23 @@ export const createRide = async (req, res) => {
 
 export const getRides = async (req, res) => {
     const rides = await prisma.ride.findMany({
-        include: { driver: { select: { name: true } } }
+        where: { seats: { not: 0 } },
+        include: { driver: { select: { name: true } } },
+        orderBy: { id: 'desc' }
     });
     res.json(rides);
+};
+
+export const getRide = async (req, res) => {
+    const rideId = parseInt(req.params.rideId);
+    const ride = await prisma.ride.findUnique({
+        where: { id: rideId },
+        include: { driver: { select: { name: true ,id : true} } }
+    });
+
+    if (!ride) {
+        return res.status(404).json({ error: "Trajet non trouvé" });
+    }
+
+    res.json(ride);
 };

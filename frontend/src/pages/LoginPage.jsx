@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Box, TextField, Button, Typography, Paper } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function LoginPage() {
 
@@ -19,7 +20,8 @@ export default function LoginPage() {
       if (response.data.id != 0) {
         sessionStorage.setItem('name', response.data.name);
         sessionStorage.setItem('id', response.data.id);
-        console.log('Inscription réussie')
+        sessionStorage.setItem('token', response.data.token);
+        toast.success('Connexion réussie')
         console.log(response.data);
         navigate('/');
       };

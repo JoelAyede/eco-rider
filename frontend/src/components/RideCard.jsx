@@ -4,8 +4,12 @@ import { Link } from 'react-router-dom';
 import PlaceIcon from '@mui/icons-material/Place';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import EuroIcon from '@mui/icons-material/Euro';
+import { Money } from '@mui/icons-material';
 
 export default function RideCard({ ride }) {
+
+  const id = sessionStorage.getItem("id")
+
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent>
@@ -20,8 +24,8 @@ export default function RideCard({ ride }) {
             label={new Date(ride.date).toLocaleDateString()}
           />
           <Chip
-            icon={<EuroIcon />}
-            label={`${ride.price} €`}
+            icon={<Money />}
+            label={`${ride.price} FC`}
             color="success"
           />
         </Stack>
@@ -30,14 +34,19 @@ export default function RideCard({ ride }) {
           Conducteur: {ride.driver.name} • Places restantes: {ride.seats}
         </Typography>
 
-        <Button
-          component={Link}
-          to={`/ride/${ride.id}`}
-          variant="outlined"
-          fullWidth
-        >
-          Voir les détails
-        </Button>
+        {id != null ? (
+          <Button
+            component={Link}
+            to={`/booking/${ride.id}`}
+            variant="outlined"
+            fullWidth
+          >
+            Réserver
+          </Button>) : (
+          <Typography color='red'>
+            Connecter vous pour réserver
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );

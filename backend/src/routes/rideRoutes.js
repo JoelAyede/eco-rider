@@ -1,8 +1,10 @@
 import express from 'express';
-import { createRide, getRides } from '../controllers/rideController.js';
+import { createRide, getRides ,getRide} from '../controllers/rideController.js';
 import { authenticate } from '../middleware/authMiddleware.js';
 
-const rideRouter = express.Router();
-rideRouter.post('/', authenticate, createRide);
-rideRouter.get('/', getRides);
-export default rideRouter;
+const rideRoutes = express.Router();
+rideRoutes.post('/', authenticate, createRide);
+rideRoutes.get('/', getRides);
+rideRoutes.get('/:rideId', getRide);
+
+export default rideRoutes;

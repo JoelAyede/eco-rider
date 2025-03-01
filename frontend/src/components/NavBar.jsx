@@ -27,6 +27,7 @@ export default function NavBar() {
         </Typography>
 
         <Button color="inherit" component={Link} to="/">Accueil</Button>
+        <Button color="inherit" component={Link} to="/booking">Réservations</Button>
         <Button color="inherit" component={Link} to="/create-ride">Proposer un trajet</Button>
         {isAuthenticated() ? <Auth /> : (
           <Button color="inherit" component={Link} to="/login">

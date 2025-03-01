@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Box, TextField, Button, Typography, Paper } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function RegisterPage() {
 
@@ -24,7 +25,7 @@ export default function RegisterPage() {
       // Redirection vers la page de connexion après inscription
       // window.location.href = '/login';
       if(response.data.id != 0) {
-        console.log('Inscription réussie')
+        toast.success('Inscription réussie')
         console.log(response.data);
         navigate('/login');
       };
